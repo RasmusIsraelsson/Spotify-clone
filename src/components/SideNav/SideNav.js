@@ -1,4 +1,3 @@
-import './SideNav.css';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -11,21 +10,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import SideNavOption from '../SideNavOption/SideNavOption';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const mockPlaylist = [
-	{ name: 'Rock', playlistId: 123, image: '/Justin-Bieber.png' },
-	{ name: 'Pop', playlistId: 646, image: '/Justin-Bieber.png' },
-	{ name: 'Hip hop', playlistId: 834, image: '/Justin-Bieber.png' },
-	{ name: 'X-mas', playlistId: 5503, image: '/Justin-Bieber.png' },
-	{ name: 'Code life', playlistId: 4832, image: '/Justin-Bieber.png' }
-];
-
-function SideNav({ playlists = mockPlaylist }) {
+function SideNav({ items, loading }) {
 	const history = useHistory();
+
 	const renderPlaylists = () => {
 		// Make sure laoding state works
-		if (playlists === null) return 'Loading';
-		return playlists.map((playlist) => <SideNavOption {...playlist} />);
+		if (loading) return 'Loading';
+		return items.map((playlist, i) => <SideNavOption {...playlist} key={i} />);
 	};
 
 	return (
@@ -45,7 +38,7 @@ function SideNav({ playlists = mockPlaylist }) {
 			<Box sx={{ width: '100%', maxWidth: 360, color: 'white' }}>
 				<List>
 					<ListItem disablePadding>
-						<ListItemButton onClick={() => history.push(`/`)}>
+						<ListItemButton onClick={() => history.push('/')}>
 							<ListItemIcon>
 								<HomeIcon sx={{ color: 'white' }} />
 							</ListItemIcon>
@@ -53,7 +46,7 @@ function SideNav({ playlists = mockPlaylist }) {
 						</ListItemButton>
 					</ListItem>
 					<ListItem disablePadding>
-						<ListItemButton onClick={() => history.push(`/search`)}>
+						<ListItemButton onClick={() => history.push('/search')}>
 							<ListItemIcon>
 								<SearchIcon sx={{ color: 'white' }} />
 							</ListItemIcon>
@@ -68,4 +61,9 @@ function SideNav({ playlists = mockPlaylist }) {
 	);
 }
 
-export default SideNav;
+const mapState = (state) => {
+	const { items, loading } = state.playlist;
+	return { items, loading };
+};
+
+export default connect(mapState)(SideNav);

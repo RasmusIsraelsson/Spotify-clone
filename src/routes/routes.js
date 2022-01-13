@@ -1,4 +1,4 @@
-import Library from '../components/Library/Library';
+import Libary from '../components/Library/Library';
 import Playlist from '../components/Playlist/Playlist';
 
 const NoMatch = () => {
@@ -22,7 +22,7 @@ export const ROUTES = [
 	{
 		path: '/playlist',
 		exact: true,
-		component: Library
+		component: Libary
 	},
 	{
 		path: '/playlist/:playlistId',
