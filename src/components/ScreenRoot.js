@@ -2,17 +2,17 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
+import { connect } from 'react-redux';
 import { ROUTES } from '../routes/routes';
 import SideNav from './SideNav/SideNav';
 import MobileNav from './MobileNav/MobileNav';
 import Player from './Player/Player';
 import Login from './Login/Login';
-import { connect } from 'react-redux';
-import { fetchUser, fetchPlaylist } from '../reduxStore/actions/index';
+import { fetchUser, fetchPlaylist, addDevice } from '../reduxStore/actions/index';
 
 const spotifyApi = new SpotifyWebApi();
 
-const setupSpotifyConnect = (token, setDeviceId) => {
+const setupSpotifyConnect = (token, addDevice) => {
 	const player = new window.Spotify.Player({
 		name: 'Web Playback SDK Quick Start Player',
 		getOAuthToken: (cb) => {
@@ -24,8 +24,7 @@ const setupSpotifyConnect = (token, setDeviceId) => {
 	// Ready
 	player.addListener('ready', ({ device_id }) => {
 		console.log('Ready with Device ID', device_id);
-		setDeviceId(device_id);
-
+		addDevice(device_id);
 		spotifyApi.transferMyPlayback([device_id]);
 	});
 
@@ -49,70 +48,59 @@ const setupSpotifyConnect = (token, setDeviceId) => {
 	player.connect();
 };
 
-const ScreenRoot = ({ token, fetchUser, playlists, fetchPlaylist }) => {
-	const [deviceId, setDeviceId] = useState();
-
+const ScreenRoot = ({ token, fetchUser, fetchPlaylist, addDevice }) => {
 	useEffect(() => {
 		// Set up spotify:
 		spotifyApi.setAccessToken(token);
 
 		window.onSpotifyWebPlaybackSDKReady = () => {
-			setupSpotifyConnect(token, setDeviceId);
+			setupSpotifyConnect(token, addDevice);
 		};
 
 		const getData = async () => {
 			fetchUser(spotifyApi);
 			fetchPlaylist(spotifyApi);
-
 			const devices = await spotifyApi.getMyDevices();
 			console.log(devices.body);
 		};
 
 		if (token) getData();
-	}, [token, fetchUser, fetchPlaylist]);
+	}, [token, fetchUser]);
 
-	if (token) {
-		return (
-			<Router>
-				<Box sx={{ paddingBottom: { xs: '146px', md: '90px' } }}>
-					<Switch>
-						{ROUTES.map((route, i) => (
-							<Route
-								key={i}
-								path={route.path}
-								exact={route.exact}
-								render={(props) => <route.component spotifyApi={spotifyApi} {...props} />}
-							/>
-						))}
-					</Switch>
-					<SideNav />
-				</Box>
-				<Player
-					spotifyApi={spotifyApi}
-					deviceId={deviceId}
-					image={'/Justin-Bieber.png'}
-					title={'Peaches'}
-					artist={'Justin Bieber'}
-				/>
-				<MobileNav />
-			</Router>
-		);
-	} else {
-		return <Login />;
-	}
-};
+	const LogedIn = () => (
+		<Router>
+			<Box sx={{ paddingBottom: { xs: '146px', md: '90px' } }}>
+				<Switch>
+					{ROUTES.map((route, i) => (
+						<Route
+							key={i}
+							path={route.path}
+							exact={route.exact}
+							render={(props) => <route.component spotifyApi={spotifyApi} {...props} />}
+						/>
+					))}
+				</Switch>
+				<SideNav />
+			</Box>
+			<Player spotifyApi={spotifyApi} />
+			<MobileNav />
+		</Router>
+	);
 
-const mapState = (state) => {
-	return {
-		token: state.auth.token,
-		playlists: state.playlist.items
-	};
+	return token ? <LogedIn /> : <Login />;
 };
 
 const mapDispatch = (dispatch) => {
 	return {
-		fetchUser: (spotifyApi) => dispatch(fetchUser(spotifyApi)),
-		fetchPlaylist: (spotifyApi) => dispatch(fetchPlaylist(spotifyApi))
+		fetchUser: (data) => dispatch(fetchUser(data)),
+		fetchPlaylist: (data) => dispatch(fetchPlaylist(data)),
+		addDevice: (id) => dispatch(addDevice(id))
+	};
+};
+
+const mapState = (state) => {
+	return {
+		token: state.auth.token
 	};
 };
 

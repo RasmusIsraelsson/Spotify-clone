@@ -3,45 +3,47 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
 	loading: false,
 	error: null,
-	token: null,
-	user: null
+	device_id: null,
+	playing: false,
+	title: null,
+	image: null,
+	artist: null,
+	duration: null,
+	progress: null
 };
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case actionTypes.AUTH_START:
+		case actionTypes.ADD_DEVICE_ID:
+			return {
+				...state,
+				device_id: action.payload
+			};
+		case actionTypes.PLAY:
+			return {
+				...state,
+				playing: true
+			};
+		case actionTypes.PAUSE:
+			return {
+				...state,
+				playing: false
+			};
+		// API calls
+		case actionTypes.UPDATE_PLAYER_START:
 			return {
 				...state,
 				error: null,
 				loading: true
 			};
-		case actionTypes.AUTH_SUCCESS:
+		case actionTypes.UPDATE_PLAYER_SUCCESS:
 			return {
 				...state,
 				error: null,
 				loading: false,
-				token: action.payload
+				...action.payload
 			};
-		case actionTypes.AUTH_FAIL:
-			return {
-				...state,
-				error: action.payload,
-				loading: false
-			};
-		case actionTypes.FETCH_CURRENT_USER_START:
-			return {
-				...state,
-				error: null,
-				loading: true
-			};
-		case actionTypes.FETCH_CURRENT_USER_SUCCESS:
-			return {
-				...state,
-				error: null,
-				loading: false,
-				user: action.payload
-			};
-		case actionTypes.FETCH_CURRENT_USER_FAIL:
+		case actionTypes.UPDATE_PLAYER_FAIL:
 			return {
 				...state,
 				error: action.payload,
