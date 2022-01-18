@@ -1,8 +1,8 @@
 import { TableCell, TableRow, Avatar, Typography, Skeleton, Box } from '@mui/material';
 import { connect } from 'react-redux';
-import { play, updateSongInfo } from '../../reduxStore/actions/index';
+import { playNewSong } from '../../reduxStore/actions/index';
 
-const SongRow = ({ spotifyApi, playlistId, track, index, loading, play, updateSongInfo }) => {
+const SongRow = ({ spotifyApi, playlistId, track, index, loading, playNewSong }) => {
 	const style = {
 		'& td': { border: 0 },
 		cursor: 'pointer',
@@ -10,6 +10,7 @@ const SongRow = ({ spotifyApi, playlistId, track, index, loading, play, updateSo
 			backgroundColor: '#d8d8d821 !important'
 		}
 	};
+
 	if (loading) {
 		return (
 			<TableRow key={index} sx={style} hover={true}>
@@ -57,14 +58,13 @@ const SongRow = ({ spotifyApi, playlistId, track, index, loading, play, updateSo
 	};
 
 	const onRowClick = async () => {
-		await spotifyApi.play({
+		const song = {
 			context_uri: `spotify:playlist:${playlistId}`,
 			offset: {
 				position: index
 			}
-		});
-		play();
-		updateSongInfo(spotifyApi);
+		};
+		playNewSong(spotifyApi, song);
 	};
 
 	return (
@@ -85,8 +85,7 @@ const SongRow = ({ spotifyApi, playlistId, track, index, loading, play, updateSo
 
 const mapDispatch = (dispatch) => {
 	return {
-		play: () => dispatch(play()),
-		updateSongInfo: (api) => dispatch(updateSongInfo(api))
+		playNewSong: (api, song) => dispatch(playNewSong(api, song))
 	};
 };
 
