@@ -25,6 +25,7 @@ const setupSpotifyConnect = (token, addDevice) => {
 	player.addListener('ready', ({ device_id }) => {
 		console.log('Ready with Device ID', device_id);
 		addDevice(device_id);
+
 		spotifyApi.transferMyPlayback([device_id]);
 	});
 
@@ -94,7 +95,7 @@ const mapDispatch = (dispatch) => {
 	return {
 		fetchUser: (data) => dispatch(fetchUser(data)),
 		fetchPlaylist: (data) => dispatch(fetchPlaylist(data)),
-		addDevice: (id) => dispatch(addDevice(id))
+		addDevice: (device_id) => dispatch(addDevice(device_id))
 	};
 };
 
