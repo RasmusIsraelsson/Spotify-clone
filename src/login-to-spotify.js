@@ -2,7 +2,7 @@
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = 'd9f8557b7bc140a1bbeb86b600f07e65';
-const redirectUri = 'http://localhost:3000/';
+const redirectUri = 'https://rasmusspotifyclone.herokuapp.com/';
 const scopes = [
 	'user-read-currently-playing',
 	'user-read-recently-played',
