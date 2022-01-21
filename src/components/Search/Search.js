@@ -1,4 +1,4 @@
-import { Box, InputBase, Paper, Grid, Typography } from '@mui/material';
+import { Box, InputBase, Paper, Grid, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import TableOfSongs from '../TableOfSongs/TableOfSongs';
 import { useState } from 'react';
@@ -15,8 +15,8 @@ const Search = ({ spotifyApi }) => {
 	const [loading, setLoading] = useState(false);
 
 	const formatSongData = (tracks) => {
-		return tracks.map(({ album, name, artists, duration_ms }) => {
-			return { track: { album, name, artists, duration_ms } };
+		return tracks.map((track) => {
+			return { track: { ...track, contextUri: track.album.uri, position: track.track_number - 1 } };
 		});
 	};
 
@@ -48,7 +48,8 @@ const Search = ({ spotifyApi }) => {
 					alignItems: 'center',
 					width: 250,
 					backgroundColor: 'white',
-					color: 'black'
+					color: 'black',
+					marginBottom: 20
 				}}
 			>
 				<SearchIcon fontSize="large" sx={{ marginRight: '6px' }} />
@@ -65,12 +66,11 @@ const Search = ({ spotifyApi }) => {
 					{songs === null ? (
 						<Typography>Search for Songs</Typography>
 					) : (
-						<TableOfSongs loading={loading} spotifyApi={spotifyApi} playlistId={'asdasd'} songs={songs} />
+						<TableOfSongs loading={loading} spotifyApi={spotifyApi} playlistId={false} songs={songs} />
 					)}
 				</Grid>
 			</Grid>
 		</Box>
 	);
 };
-
 export default Search;

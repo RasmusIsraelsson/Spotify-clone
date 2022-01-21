@@ -21,7 +21,7 @@ function PlaylistItem({ name, id, images, loading }) {
 			</ListItem>
 		);
 
-	const smallImage = images[2].url;
+	const smallImage = images[0].url;
 
 	return (
 		<ListItem disablePadding>

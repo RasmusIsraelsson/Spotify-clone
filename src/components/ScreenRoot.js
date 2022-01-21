@@ -20,7 +20,7 @@ const setupSpotifyConnect = (token, addDevice) => {
 		},
 		volume: 0.5
 	});
-
+	console.log(token);
 	// Ready
 	player.addListener('ready', ({ device_id }) => {
 		console.log('Ready with Device ID', device_id);
