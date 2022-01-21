@@ -21,12 +21,14 @@
 		"redux": "^4.1.1",
 		"redux-thunk": "^2.3.0",
 		"spotify-web-api-node": "^5.0.2",
+		"serve": "^13.0.2",
 		"web-vitals": "^1.0.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"dev": "react-scripts start",
+		"start": "serve -s build",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -48,6 +50,6 @@
 		]
 	},
 	"engines": {
-		"node": "17.x"
+		"node": "16.x"
 	}
 }
