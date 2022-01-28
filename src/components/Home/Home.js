@@ -29,17 +29,17 @@ const Home = () => {
 					Welcome to my Spotify Clone
 				</Typography>
 			</Box>
-			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '10px' }}>
-				<Typography align="center" variant="paragraph" sx={{ color: 'text.primary' }}>
-					This app is powered by React, Redux and Spotify's Api
-				</Typography>
-			</Box>
 
 			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
 				<img
 					src="/rasmus.jpg"
 					alt="Rasmus Israelsson"
-					style={{ width: '250px', borderRadius: '50%', boxShadow: '0px 0px 55px 9px rgba(0,0,0,0.3)' }}
+					style={{
+						width: '250px',
+						borderRadius: '50%',
+						boxShadow: '0px 0px 55px 9px rgba(0,0,0,0.3)',
+						height: '265px'
+					}}
 				/>
 			</Box>
 			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
