@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, Link } from '@mui/material';
 
 const style = {
 	position: 'fixed',
@@ -7,32 +7,47 @@ const style = {
 	height: '100vh',
 	width: { xs: '100%', md: 'calc(100% - 240px)', xl: '100%' }
 };
-
-const Home = ({}) => {
+const Home = () => {
 	return (
 		<Box sx={style} className="gradient-animation">
-			<Grid
-				container
-				spacing={0}
-				direction="row"
-				alignItems="center"
-				justifyContent="center"
-				sx={{ height: 'calc(100% - 105px)' }}
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					margin: '20px 0 20px 0'
+				}}
 			>
-				<Grid item xs={12} lg={12} sx={{ textAlign: 'center' }}>
-					<Typography color="text.primary" variant={'h1'} gutterBottom>
-						Rasmus Clone
-					</Typography>
-					<Typography color="text.primary" variant={'caption'} mb={6}>
-						powered by
-					</Typography>
-				</Grid>
-				<Grid item xs={8} md={4} lg={3}>
-					<img src="/TA-Logo.png" style={{ width: '100%' }} alt="Techover" />
-				</Grid>
-			</Grid>
+				<Typography
+					variant="h1"
+					align="center"
+					sx={{
+						color: 'text.primary',
+						margin: '0 auto'
+					}}
+				>
+					Welcome to my Spotify Clone
+				</Typography>
+			</Box>
+			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '10px' }}>
+				<Typography align="center" variant="paragraph" sx={{ color: 'text.primary' }}>
+					This app is powered by React, Redux and Spotify's Api
+				</Typography>
+			</Box>
+
+			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+				<img
+					src="/rasmus.jpg"
+					alt="Rasmus Israelsson"
+					style={{ width: '250px', borderRadius: '50%', boxShadow: '0px 0px 55px 9px rgba(0,0,0,0.3)' }}
+				/>
+			</Box>
+			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Typography align="center" variant="paragraph" sx={{ color: 'text.primary' }}>
+					Created by Rasmus
+				</Typography>
+			</Box>
 		</Box>
 	);
 };
-
 export default Home;
